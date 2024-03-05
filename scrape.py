@@ -3,7 +3,12 @@ import requests
 # URL of the web page you want to access
 url = 'https://apps.pcdirectory.gov.hk/Public/TC/AdvancedSearch?ProfID=RMP'
 headers = {
-	'User-Agent': 'Mozilla/5.0'
+	'User-Agent': 'Mozilla/5.0',
+	'Content-Type': 'application/x-www-form-urlencoded',
+	'sec-ch-ua': '"Chromium";v="122", "Not(A:Brand";v="24", "Google Chrome";v="122"',
+	'sec-ch-ua-mobile': '?0',
+	'sec-ch-ua-platform': '"macOS"',
+	'Upgrade-Insecure-Requests': '1'
 }
 params = {'key': 'value'}
 
