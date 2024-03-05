@@ -26,22 +26,21 @@ new_cookies['__RequestVerificationToken_L1B1YmxpYw2'] = os.environ.get("__Reques
 for cookie in new_cookies:
     cookie_name = cookie.name
     cookie_value = cookie.value
-    print(f"Cookie Name: {cookie_name}, Cookie Value: {cookie_value}")
-
+    print(f"Cookie Name: {cookie_name}")
+    print(f"Cookie Value: {cookie_value}\n")
 
 # Import search parameters
-para = search_para.search_para
-para['__RequestVerificationToken'] = os.environ.get("__RequestVerificationToken")
+request_para = search_para.search_para
+request_para['__RequestVerificationToken'] = os.environ.get("__RequestVerificationToken")
 
-url = 'https://apps.pcdirectory.gov.hk/Public/TC/AdvancedSearch'
 # Sending POST request with the specified headers and data
-response = requests.post(url, headers=headers, cookies=new_cookies, data=para)
+search_url = 'https://apps.pcdirectory.gov.hk/Public/TC/AdvancedSearch'
+response = requests.post(search_url, headers=headers, cookies=new_cookies, data=request_para)
 
-# Check if the request was successful (status code 200)
+# Save if successfully get search reseults
 if response.status_code == 200:
-    # Open a file in binary write mode to save the response content
+    # Save search result conrent as HTML file
     with open('response.html', 'wb') as f:
-        # Write the response content to the file
         f.write(response.content)
     print("Response saved as HTML file.")
 else:
