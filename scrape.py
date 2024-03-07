@@ -1,20 +1,22 @@
 import requests
-import search_para
+from search_para import search_para
+from search_parser import extract_doc_urls
 import os
 from dotenv import load_dotenv
 load_dotenv()
 
 
-# ==============
-# Search Name
-# ==============
+# ======================
+# Search Doc Name
+# ======================
 
 
 # Set name of doc to find
 doc_name = "CHAN KAI MING"
+print("Doc to search:", doc_name)
 
 # Import search parameters
-request_para = search_para.search_para
+request_para = search_para
 request_para['Name'] = doc_name
 
 # Bypass token verification
@@ -35,14 +37,22 @@ headers = {
 
 # Sending POST request with the specified headers and data
 search_url = 'https://apps.pcdirectory.gov.hk/Public/TC/AdvancedSearch'
-response = requests.post(search_url, headers=headers,
+search_response = requests.post(search_url, headers=headers,
                          cookies=cookies, data=request_para)
 
 # Save if successfully get search reseults
-if response.status_code == 200:
+if search_response.status_code == 200:
     # Save search result conrent as HTML file
-    with open('response.html', 'wb') as f:
-        f.write(response.content)
-    print("Response saved as HTML file.")
+    with open('search_response.html', 'wb') as f:
+        f.write(search_response.content)
+    print("Search results saved as HTML file.")
 else:
-    print("Failed to retrieve response.")
+    print("Failed to retrieve search results.")
+
+
+# ======================
+# Extract Doc URL
+# ======================
+    
+
+doc_url_lst = extract_doc_urls()
