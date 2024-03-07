@@ -66,9 +66,9 @@ for doc_url in doc_url_lst:
     doc_profile_response = requests.get(doc_url, headers=headers, cookies=cookies)
 
     # Save doc profile as HTML
-    if search_response.status_code == 200:
+    if doc_profile_response.status_code == 200:
         with open(f'temp/doc_profile_{doc_counter}.html', 'wb') as f:
-            f.write(search_response.content)
+            f.write(doc_profile_response.content)
         print(f"Doc profile ({doc_counter}) saved as HTML file.")
     else:
         print(f"Failed to access doc profile {doc_url}")
