@@ -3,10 +3,8 @@ from bs4 import BeautifulSoup
 BASE_URL = 'https://apps.pcdirectory.gov.hk'
 
 def extract_doc_urls():
-    print("Parsing search results...")
-
     # Load HTML file
-    with open('search_response.html', 'r') as file:
+    with open('temp/search_response.html', 'r') as file:
         html_content = file.read()
 
     # Locate all search results

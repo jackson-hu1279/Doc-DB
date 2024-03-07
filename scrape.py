@@ -43,16 +43,32 @@ search_response = requests.post(search_url, headers=headers,
 # Save if successfully get search reseults
 if search_response.status_code == 200:
     # Save search result conrent as HTML file
-    with open('search_response.html', 'wb') as f:
+    with open('temp/search_response.html', 'wb') as f:
         f.write(search_response.content)
     print("Search results saved as HTML file.")
 else:
     print("Failed to retrieve search results.")
 
-
-# ======================
-# Extract Doc URL
-# ======================
-    
-
+# Extract doc profile urls
+print("\nParsing search results...")
 doc_url_lst = extract_doc_urls()
+
+
+# ======================
+# Extract Doc Profile
+# ======================
+
+
+print("\nExtracting doc info from profile...")
+doc_counter = 0
+for doc_url in doc_url_lst:
+    doc_counter += 1
+    doc_profile_response = requests.get(doc_url, headers=headers, cookies=cookies)
+
+    # Save doc profile as HTML
+    if search_response.status_code == 200:
+        with open(f'temp/doc_profile_{doc_counter}.html', 'wb') as f:
+            f.write(search_response.content)
+        print(f"Doc profile ({doc_counter}) saved as HTML file.")
+    else:
+        print(f"Failed to access doc profile {doc_url}")
