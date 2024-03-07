@@ -101,7 +101,6 @@ search_para = {
 	'NTK': 'false',
 	'NTM': 'false',
 	'NW': 'false',
-	'Name': 'CHAN KAI MING',
 	'PC': 'false',
 	'PEAK': 'false',
 	'PFL': 'false',
