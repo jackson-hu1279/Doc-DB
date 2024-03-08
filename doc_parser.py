@@ -72,21 +72,18 @@ def extract_doc_info(doc_counter):
             info = table_data
         elif legend == "政府基層醫療促進計劃":
             programs = extract_care_program(legend_pair_div.find('table'))
-            info = str(programs)
+            info = ', '.join(programs)
         else:
             info = legend_pair_div.find('div', class_='info').text.strip()
 
-        print(legend, info)
+        profile_info[legend] = info
 
     
-    
+    # Info summary check (for debug)
+    for key, value in profile_info.items():
+        print(key, ':', value)
 
-    # for key, value in profile_info.items():
-    #     print(key, ':', value)
-
-
-
-    return None
+    return profile_info
 
 extract_doc_info(1)
 
