@@ -79,8 +79,11 @@ def extract_profile_info(doc_counter):
             profile_info["執業處所"] = practice_name
             profile_info["地址"] = practice_address
         elif legend == "應診時間":
-            table_data = extract_table_content(legend_pair_div.find('table'))
-            profile_info["應診時間"] = table_data
+            table_div = legend_pair_div.find('table')
+            if table_div is not None:
+                table_data = extract_table_content(table_div)
+                profile_info["應診時間"] = table_data
+            
         elif legend == "政府基層醫療促進計劃":
             programs = extract_care_program(legend_pair_div.find('table'))
             profile_info["政府基層醫療促進計劃"] = ', '.join(programs)
