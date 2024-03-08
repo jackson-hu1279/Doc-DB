@@ -5,13 +5,16 @@ def extract_table_content(table_div):
     table_data = ""
 
     # Iterate through each row in the table
-    for row in table_div.find_all('tr'):
-        row_data = ""
-        # Iterate through each cell in the row
-        for cell in row.find_all(['th', 'td']):
-            row_data += cell.text.strip()
+    for row in table_div.children:
+        # Locate level 1 row elements
+        if row.name == 'tr':
+            row_data = ""
+            day = row.find('td').text.strip()
+            time_range = row.find('table').text.strip()
 
-        table_data += (row_data + '\n')
+            # Organise data format for a single day
+            row_data += (day + '' + time_range)
+            table_data += (row_data + '\n')
 
     return table_data.strip()
 
