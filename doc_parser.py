@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 
+# Extract opening hours info from table
 def extract_table_content(table_div):
     table_data = ""
 
@@ -9,10 +10,19 @@ def extract_table_content(table_div):
         # Iterate through each cell in the row
         for cell in row.find_all(['th', 'td']):
             row_data += cell.text.strip()
-            
+
         table_data += (row_data + '\n')
 
     return table_data
+
+# Extract care program info
+def extract_care_program(program_div):
+    programs = []
+
+    for entry in program_div.find_all('a'):
+        programs.append(entry.text.strip())
+
+    return programs
 
 def extract_doc_info(doc_counter):
     # Load HTML file
@@ -44,21 +54,16 @@ def extract_doc_info(doc_counter):
         if legend not in required_fields:
             continue
 
-        info = legend_pair_div.find('div', class_='info').text.strip()
-
+        # Extract info based on fields
         if legend == "應診時間":
             table_data = extract_table_content(legend_pair_div.find('table'))
             info = table_data
+        elif legend == "政府基層醫療促進計劃":
+            programs = extract_care_program(legend_pair_div.find('table'))
+            info = str(programs)
+        else:
+            info = legend_pair_div.find('div', class_='info').text.strip()
 
-        if legend == "政府基層醫療促進計劃":
-            plan = []
-            if "CRCSP" in info:
-                print("CRSCP True")
-                plan.append("CRCSP")
-            if "HCVS" in info:
-                print("HCVS True")
-                plan.append("HCVS")
-            info = str(plan)
         print(legend, info)
 
     
