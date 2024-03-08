@@ -40,8 +40,8 @@ def get_current_practice_ref(page_content):
 
     return practice_ref
 
-# Extract required doc info (main logic)
-def extract_doc_info(doc_counter):
+# Extract required doc profile info (main logic)
+def extract_profile_info(doc_counter):
     # Load HTML file
     with open(f'temp/doc_profile_{doc_counter}.html', 'r') as file:
         html_content = file.read()
@@ -90,10 +90,8 @@ def extract_doc_info(doc_counter):
         
     
     # Info summary check (for debug)
-    for key, value in profile_info.items():
-        print(key, ':', value)
+    # for key, value in profile_info.items():
+    #     print(key, ':', value)
 
     return profile_info
-
-extract_doc_info(2)
 

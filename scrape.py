@@ -1,8 +1,11 @@
 import requests
-from search_para import search_para
-from search_parser import extract_doc_urls
 import os
 from dotenv import load_dotenv
+
+from search_para import search_para
+from search_parser import extract_doc_urls
+from doc_parser import extract_profile_info
+
 load_dotenv()
 
 
@@ -65,6 +68,8 @@ for doc_url in doc_url_lst:
     doc_counter += 1
     doc_profile_response = requests.get(doc_url, headers=headers, cookies=cookies)
 
+    print(f"\nProcessing doc profile {doc_counter}")
+
     # Save doc profile as HTML
     if doc_profile_response.status_code == 200:
         with open(f'temp/doc_profile_{doc_counter}.html', 'wb') as f:
@@ -72,3 +77,10 @@ for doc_url in doc_url_lst:
         print(f"Doc profile ({doc_counter}) saved as HTML file.")
     else:
         print(f"Failed to access doc profile {doc_url}")
+        continue
+
+    doc_profile_info = extract_profile_info(doc_counter)
+    # Info summary check (for debug)
+    print("Required fields in doc profile extracted:\n")
+    for key, value in doc_profile_info.items():
+        print(key, ':', value)
