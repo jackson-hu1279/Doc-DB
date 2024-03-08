@@ -11,20 +11,44 @@ def extract_doc_info(doc_counter):
     doc_practice_div = doc_profile_div.find('div', class_='practice-detail-content')
 
     # Extract doc basic info
-    doc_info = {}
+    profile_info = {}
     doc_name = doc_profile_div.find('div', class_='col-sm-9 Row-Padding').text.strip()
-    doc_info["姓名"] = doc_name
+    profile_info["姓名"] = doc_name
 
     for legend_pair_div in doc_profile_div.findAll('div', class_='col-sm-6 Row-Padding'):
         legend = legend_pair_div.find('div', class_='col-12 legend').text.strip()
         info = legend_pair_div.find('div', class_='col-12 info').text.strip()
-        doc_info[legend] = info
+        profile_info[legend] = info
 
+    # Extract doc practice info
+    required_fields = ["地址", "執業類別", "電話", "應診時間", "政府基層醫療促進計劃"]
+    current_pracice_div = doc_practice_div.find('div', id='lst001')
+    for legend_pair_div in current_pracice_div.findAll('div', class_='content-section'):
+        legend = legend_pair_div.find('div', class_='legend').text.strip()
+
+        # Skip unnecessary fields
+        if legend not in required_fields:
+            continue
+
+        info = legend_pair_div.find('div', class_='info').text.strip()
+
+
+        if legend == "政府基層醫療促進計劃":
+            plan = []
+            if "CRCSP" in info:
+                print("CRSCP True")
+                plan.append("CRCSP")
+            if "HCVS" in info:
+                print("HCVS True")
+                plan.append("HCVS")
+            info = str(plan)
+        print(legend, info)
 
     
+    
 
-    for key, value in doc_info.items():
-        print(key, ':', value)
+    # for key, value in profile_info.items():
+    #     print(key, ':', value)
 
 
 
