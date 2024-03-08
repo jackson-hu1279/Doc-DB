@@ -1,5 +1,11 @@
 from bs4 import BeautifulSoup
 
+# Extract practice address
+def extract_practice_addrss(doc_practice_div):
+    map_div = doc_practice_div.find('div', class_='map')
+    address = map_div.find('div', class_='info').text.strip()
+    return address
+
 # Extract opening hours info from table
 def extract_table_content(table_div):
     table_data = ""
@@ -67,17 +73,21 @@ def extract_doc_info(doc_counter):
             continue
 
         # Extract info based on fields
-        if legend == "應診時間":
+        if legend == "地址":
+            practice_name = legend_pair_div.find('div', class_='info').text.strip()
+            practice_address = extract_practice_addrss(doc_practice_div)
+            profile_info["執業處所"] = practice_name
+            profile_info["地址"] = practice_address
+        elif legend == "應診時間":
             table_data = extract_table_content(legend_pair_div.find('table'))
-            info = table_data
+            profile_info["應診時間"] = table_data
         elif legend == "政府基層醫療促進計劃":
             programs = extract_care_program(legend_pair_div.find('table'))
-            info = ', '.join(programs)
+            profile_info["政府基層醫療促進計劃"] = ', '.join(programs)
         else:
             info = legend_pair_div.find('div', class_='info').text.strip()
-
-        profile_info[legend] = info
-
+            profile_info[legend] = info
+        
     
     # Info summary check (for debug)
     for key, value in profile_info.items():
@@ -85,5 +95,5 @@ def extract_doc_info(doc_counter):
 
     return profile_info
 
-extract_doc_info(1)
+extract_doc_info(2)
 
