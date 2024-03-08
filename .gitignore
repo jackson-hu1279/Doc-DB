@@ -1,5 +1,7 @@
 /example
 /temp
+/demo
+/input_output
 
 /__pycache__
 *.DS_Store
