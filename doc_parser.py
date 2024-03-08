@@ -75,7 +75,7 @@ def extract_doc_info(doc_counter):
         # Extract info based on fields
         if legend == "地址":
             practice_name = legend_pair_div.find('div', class_='info').text.strip()
-            practice_address = extract_practice_addrss(doc_practice_div)
+            practice_address = extract_practice_addrss(current_pracice_div)
             profile_info["執業處所"] = practice_name
             profile_info["地址"] = practice_address
         elif legend == "應診時間":
