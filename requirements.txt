@@ -1,0 +1,16 @@
+autopep8==1.6.0
+beautifulsoup4==4.12.3
+flake8==6.0.0
+importlib-metadata==7.0.2
+ipykernel==6.29.3
+openpyxl==3.1.2
+pandas==2.2.1
+pickleshare==0.7.5
+pydocstyle==6.2.3
+pylint==2.17.0
+python-dotenv==1.0.1
+python-lsp-server==1.7.1
+requests==2.31.0
+rope==1.7.0
+whatthepatch==1.0.4
+yapf==0.32.0
