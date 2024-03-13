@@ -22,19 +22,12 @@ TEMP_DIR = "temp"
 DOC_NAMES_EXCEL = "doc_names.xlsx"
 OUTPUT_EXCEL = "doc_profile_result.xlsx"
 
-input_file_path = f"{FILE_EXCHANGE_DIR}/{DOC_NAMES_EXCEL}"
-output_file_path = f"{FILE_EXCHANGE_DIR}/{OUTPUT_EXCEL}"
-
-# Create directories for file exchange
-os.makedirs(TEMP_DIR, exist_ok=True)
-os.makedirs(FILE_EXCHANGE_DIR, exist_ok=True)
-
 # Bypass token verification
-cookies = requests.cookies.RequestsCookieJar()
-cookies['__RequestVerificationToken_L1B1YmxpYw2'] = os.environ.get(
+COOKIES = requests.cookies.RequestsCookieJar()
+COOKIES['__RequestVerificationToken_L1B1YmxpYw2'] = os.environ.get(
     "__RequestVerificationToken_L1B1YmxpYw2")
 
-headers = {
+HEADERS = {
     'User-Agent': 'Mozilla/5.0',
     'Content-Type': 'application/x-www-form-urlencoded',
     'sec-ch-ua': '"Chromium";v="122", "Not(A:Brand";v="24", "Google Chrome";v="122"',
@@ -42,6 +35,16 @@ headers = {
     'sec-ch-ua-platform': '"macOS"',
     'Upgrade-Insecure-Requests': '1'
 }
+
+def initialise():
+    input_file_path = f"{FILE_EXCHANGE_DIR}/{DOC_NAMES_EXCEL}"
+    output_file_path = f"{FILE_EXCHANGE_DIR}/{OUTPUT_EXCEL}"
+
+    # Create directories for file exchange
+    os.makedirs(TEMP_DIR, exist_ok=True)
+    os.makedirs(FILE_EXCHANGE_DIR, exist_ok=True)
+
+    return input_file_path, output_file_path
 
 
 # ==================================
@@ -60,8 +63,8 @@ def search_doc(doc_name):
 
     # Sending POST request with the specified headers and data
     search_url = 'https://apps.pcdirectory.gov.hk/Public/TC/AdvancedSearch'
-    search_response = requests.post(search_url, headers=headers,
-                            cookies=cookies, data=request_para)
+    search_response = requests.post(search_url, headers=HEADERS,
+                            cookies=COOKIES, data=request_para)
 
     # Save if successfully get search reseults
     if search_response.status_code == 200:
@@ -93,7 +96,7 @@ def extract_doc_detail(doc_url_lst):
     doc_counter = 0
     for doc_url in doc_url_lst:
         doc_counter += 1
-        doc_profile_response = requests.get(doc_url, headers=headers, cookies=cookies)
+        doc_profile_response = requests.get(doc_url, headers=HEADERS, cookies=COOKIES)
 
         print("\n" + "-" * 30 + "\n")
         print(f"Processing doc profile {doc_counter}")
@@ -142,6 +145,9 @@ def cache_clean_up(dir_name):
         
 
 def main():
+    # Preparation
+    input_file_path, output_file_path = initialise()
+
     # Load input file & read given doc names
     if not os.path.exists(input_file_path):
         sys.exit(f"Error: Input file '{input_file_path}' does not exist!")
