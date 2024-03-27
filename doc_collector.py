@@ -136,7 +136,15 @@ def remove_temp_html(dir_name):
 
 def cache_clean_up(dir_name):
     if os.path.exists(dir_name):
-        os.removedirs(dir_name)
+        # Remove any existing files
+        for root, dirs, files in os.walk(dir_name, topdown=False):
+            for file in files:
+                os.remove(os.path.join(root, file))
+            for dir in dirs:
+                os.rmdir(os.path.join(root, dir))
+                
+        # Remove directory itself
+        os.rmdir(dir_name)
 
 
 # ==================================
