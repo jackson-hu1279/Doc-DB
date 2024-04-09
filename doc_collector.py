@@ -4,9 +4,9 @@ import pandas as pd
 import requests
 from dotenv import load_dotenv
 
-from search_para import search_para
-from search_parser import extract_doc_urls
-from doc_parser import extract_profile_info
+from utils.search_para import search_para
+from utils.search_parser import extract_doc_urls
+from utils.doc_parser import extract_profile_info
 
 load_dotenv()
 
